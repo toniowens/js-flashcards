@@ -5,7 +5,7 @@
 	Author: Toni Owens
 	Date: 11/30/14
 
-	Filename: 			flashcards.htm
+	Filename: 			menus.js
 	Supporting Files: 	[tbd]
 
 ================================================================================
@@ -15,7 +15,7 @@ main()
 	Sets variables, arrays, calls the functions neccessary for the functioning
 	of the flashcard resource menus.
 
-[x]moveMenu()
+moveMenu()
 	Moves the active menu from one to another.
 
 changeMenu()
@@ -24,60 +24,90 @@ changeMenu()
 closeMenu()
 	Closes the active menu.
 
+rollDown()
+	Applies a rolldown effect to open the acive menu.
+
 ================================================================================
 Global Variable List:
 
 activeMenu
 	Object: Points to the currently active/open menu.
+
+timeID
+	Contains the id of a timed command using setInterval.
+
+clipHgt
+	Current height of the active menu.
 */
 
 window.onload = main;
 
 var activeMenu = null;
+var clipHgt = 0;
+var timeID;
 
 function main() {
-	var menus = new Array();
-	var allElements = document.getElementsByTagName("*");
+   var menus = new Array();
+   var allElems = document.getElementsByTagName("*");
 
-	// Add elements that have class .menu to the menus[] array
-	for (var i = 0; i < allElements.length; i++) {
-		if (allElements[i].className = "menu") {
-			menus.push(allElements[i]);
-		}
-	}
+   // add elements to the menus[] array with class .menu
+   for (var i = 0; i < allElems.length; i++) {
+      if (allElems[i].className == "menu") menus.push(allElems[i]);
+   }
 
-	// Attach events for the menus
-	for (var i = 0; i < menus.length; i++) {
-		menus[i].onclick = moveMenu;
-		menus[i].onmouseover = changeMenu;
-	}
+   for (var i = 0; i < menus.length; i++) {
+      menus[i].onclick = changeMenu;
+      menus[i].onmouseover = moveMenu;
+   }
+
+   // document.getElementById("container").onclick = closeMenu;
 }
 
 function moveMenu() {
-	// This function moves the menu from one title to another
+   // this function moves the pull-down menu from one title to another
 
-	if (activeMenu) {
-		closeMenu();
+   if (activeMenu) {
+      closeMenu();
 
-		menuID = this.id + "list";
-		activeMenu = document.getElementById(menuID);
-		activeMenu.style.display = "block";
-	}
+      menuID = this.id + "list";
+      activeMenu = document.getElementById(menuID);
+      activeMenu.style.clip = "rect(0px, 150px, 0px, 0px)";
+      activeMenu.style.display = "block";
+      timeID = setInterval("rollDown()", 1);
+   }
 }
 
 function changeMenu() {
-	// This function changes the menu currently displayed.
+   // this function changes the pull-down menu displayed in the document
 
-	closeMenu();
+   closeMenu();
 
-	menuID = this.id + "list";
-	activeMenu = document.getElementById(menuID);
-	activeMenu.style.display = "block";
+   menuID = this.id + "list";
+   activeMenu = document.getElementById(menuID);
+   activeMenu.style.clip = "rect(0px, 150px, 0px, 0px)";
+   activeMenu.style.display = "block";
+   timeID = setInterval("rollDown()", 1);
 }
 
 function closeMenu() {
-	if (activeMenu) {
-		activeMenu.style.display = "none";
-		activeMenu = null;
-	}
+   if (activeMenu) {
+      clearInterval(timeID);
+      activeMenu.style.display = "none";
+      activeMenu = null;
+   }
+}
+
+function rollDown() {
+
+   // increase clipping height by 10px
+   clipHgt += 10;
+
+   // if height < 400px, clip menu
+   // else, stop running rollDown() and reset height to 0
+   if (clipHgt < 400) {
+      activeMenu.style.clip = "rect(0px, 150px, " + clipHgt + "px, 0px)";
+   } else {
+      clearInterval(timeID);
+      clipHgt = 0;
+   }
 }
