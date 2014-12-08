@@ -22,10 +22,41 @@ function addEvent(object, evName, fnName, cap) {
 addEvent(window, "load", main, false);
 
 function main() {
+	createSidebar();
+}
+
+function createSidebar() {
+	var sidebar = document.getElementById("sidebar");
+	var gameList = document.createElement("ul");
+	var sidebarItems = [];
+
+	for (var i = 0; i < linkList.length; i++) {
+		sidebarItems[i] = document.createElement("li");
+		sidebarItems[i].innerHTML = "<a href='#'>" + linkList[i] + "</a>";
+		sidebarItems[i].index = i;
+		gameList.appendChild(sidebarItems[i]);
+	}
+
+	sidebarItems[0].onclick = function() {
+		createGame(createCardSet(frontSets[0], backSets[0]));
+	}
+
+	sidebarItems[1].onclick = function() {
+		createGame(createCardSet(frontSets[1], backSets[1]));
+	}
+
+	sidebarItems[2].onclick = function() {
+		createGame(createCardSet(frontSets[2], backSets[2]));
+	}
+
+	sidebar.appendChild(gameList);
+}
+
+function createCardSet(frontPhrases, backPhrases) {
 	var cards = [];
 
 	// Populate the cards array with a bunch of stuff
-	for (var i = 0; i < cardFront.length; i++) {
+	for (var i = 0; i < frontPhrases.length; i++) {
 		cards[i] = document.createElement("div");
 		cards[i].className = "card";
 		cards[i].id = "currentCard";
@@ -33,21 +64,29 @@ function main() {
 
 		cards[i].front = document.createElement("p");
 		cards[i].front.id = "front";
-		cards[i].front.innerHTML = cardFront[i];
+		cards[i].front.innerHTML = frontPhrases[i];
 
 		cards[i].back = document.createElement("p");
 		cards[i].back.id = "back";
-		cards[i].back.innerHTML = cardBack[i];
+		cards[i].back.innerHTML = backPhrases[i];
 
 		// show the front of the card first.
 		cards[i].appendChild(cards[i].front);
 	}
 
-	createGame(cards);
+	return cards;
 }
 
 function createGame(cards) {
 	var cardBox = document.getElementById("flashcards");
+
+	if (document.getElementById("currentCard")) {
+		cardBox.removeChild(document.getElementById("currentCard"));
+	}
+
+	if (document.getElementById("cardFooter")) {
+		cardBox.removeChild(document.getElementById("cardFooter"));
+	}
 
 	// Start with the first card
 	cardBox.appendChild(cards[0]);

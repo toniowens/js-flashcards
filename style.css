@@ -7,15 +7,31 @@
 	outline: 0;
 }
 body {
-	background-color: white; 
-	font-family: 'Trebuchet MS', Arial, Verdana, sans-serif;
+	background-color: #e6d9d1; 
+	font-family: Georgia, "Times New Roman", serif;
     font-size: 12px;
+}
+h2 {
+	margin-top: 20px;
+	color: #663744;
 }
 #container {
 	position: absolute;
 	top: 0px;
 	left: 10px;
 	width: 850px;
+	height: 100%;
+}
+#clickBox {
+	position: absolute;
+	top: 90px;
+	height: 500px;
+	width: 100%;
+	padding-top: 50px;
+}
+#clickBox h1,
+#clickBox h2 {
+	color: #7993ae;
 }
 a {
 	text-decoration: none;
@@ -35,18 +51,19 @@ ul {
 	height: 35px;
 	z-index: 3;
     border: 1px solid black;
-    color: black;
-    background-color: rgb(212, 212, 212);
+    color: #000;
+    background-color: #b48386;
     text-align: center;
+    text-transform: uppercase;
 }
 .menu a {
 	display: block;
 	width: 140px;
 	height: 35px;
-	color: black;
+	color: #000;
 }
 .menu a:hover {
-	background-color: rgb(151, 151, 151);
+	background-color: #7993ae;
 	color: white;
 }
 #menu1, #menu1list { left: 0px; }
@@ -58,35 +75,33 @@ ul {
 
 .menulist {
 	position: absolute;
-	top: 146px;
+	top: 85px;
 	width: 140px;
 	z-index: 2;
-	background-color: ivory;
+	background-color: #f7f8fc;
+	color: #663744;
 	border: 1px solid black;
 	display: none;
 }
-
-.menulist li {
-	margin: 5px;
-}
 .menulist a {
 	display: block;
-	width: 132px;
+	width: 130px;
+	padding: 5px;
 }
 .menulist a:hover {
-	background-color: rgb(151, 151, 151);
+	background-color: #7993ae;
 	color: white;
 }
-
 .card {
 	width: 500px;
 	height: 300px;
 	font-size: 22px;
-	border: 2px solid #ccc;
+	background-color: #f7f8fc;
+	border: 2px solid #7993ae;
 	border-radius: 20px;
 	position: absolute;
-	top: 100px;
-	left: 200px;
+	top: 130px;
+	left: 250px;
 	text-align: center;
 }
 .card p {
@@ -96,14 +111,26 @@ input[src="prev.png"],
 input[src="flip.png"],
 input[src="next.png"] {
 	position: absolute;
-	top: 410px;
+	top: 440px;
 }
 input[src="prev.png"] {
-	left: 200px;
+	left: 250px;
 }
 input[src="flip.png"] {
-	left: 427px;
+	left: 477px;
 }
 input[src="next.png"] {
-	left: 654px;
+	left: 704px;
+}
+#sidebar {
+	font-size: 16px;
+	padding: 15px 10px 10px 10px;
+}
+#sidebar a:link,
+#sidebar a:visited {
+	color: #7993ae;
+}
+#sidebar a:hover,
+#sidebar a:active {
+	color: #b48386;
 }

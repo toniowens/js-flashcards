@@ -6,7 +6,6 @@
 	Date: 11/30/14
 
 	Filename: 			menus.js
-	Supporting Files: 	[tbd]
 
 ================================================================================
 Function List:
@@ -60,7 +59,7 @@ function main() {
       menus[i].onmouseover = moveMenu;
    }
 
-   //document.getElementsByTagName("body").onclick = closeMenu;
+   document.getElementById("clickBox").onclick = closeMenu;
 }
 
 function moveMenu() {
