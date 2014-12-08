@@ -60,7 +60,7 @@ function main() {
       menus[i].onmouseover = moveMenu;
    }
 
-   // document.getElementById("container").onclick = closeMenu;
+   //document.getElementsByTagName("body").onclick = closeMenu;
 }
 
 function moveMenu() {

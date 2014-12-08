@@ -3,6 +3,9 @@
 	margin: 0px;
 	line-height: 1.2;
 }
+*:focus {
+	outline: 0;
+}
 body {
 	background-color: white; 
 	font-family: 'Trebuchet MS', Arial, Verdana, sans-serif;
@@ -88,4 +91,19 @@ ul {
 }
 .card p {
 	margin-top: 120px;
+}
+input[src="prev.png"],
+input[src="flip.png"],
+input[src="next.png"] {
+	position: absolute;
+	top: 410px;
+}
+input[src="prev.png"] {
+	left: 200px;
+}
+input[src="flip.png"] {
+	left: 427px;
+}
+input[src="next.png"] {
+	left: 654px;
 }

@@ -22,27 +22,35 @@ function addEvent(object, evName, fnName, cap) {
 addEvent(window, "load", main, false);
 
 function main() {
-	createGame(cardFront, cardBack);
+	var cards = [];
+
+	// Populate the cards array with a bunch of stuff
+	for (var i = 0; i < cardFront.length; i++) {
+		cards[i] = document.createElement("div");
+		cards[i].className = "card";
+		cards[i].id = "currentCard";
+		cards[i].index = i;
+
+		cards[i].front = document.createElement("p");
+		cards[i].front.id = "front";
+		cards[i].front.innerHTML = cardFront[i];
+
+		cards[i].back = document.createElement("p");
+		cards[i].back.id = "back";
+		cards[i].back.innerHTML = cardBack[i];
+
+		// show the front of the card first.
+		cards[i].appendChild(cards[i].front);
+	}
+
+	createGame(cards);
 }
 
-function createGame(front, back) {
+function createGame(cards) {
 	var cardBox = document.getElementById("flashcards");
 
-	// Insert a flashcard.
-	var card = document.createElement("div");
-	card.className = "card";
-	card.id = "currentCard";
-
-	card.front = document.createElement("p");
-	card.front.id = "front";
-	card.back = document.createElement("p");
-	card.back.id = "back";
-	card.index = 0;
-	card.front.innerHTML = front[card.index];
-	card.back.innerHTML = back[card.index];
-
-	card.appendChild(card.front);
-	cardBox.appendChild(card);
+	// Start with the first card
+	cardBox.appendChild(cards[0]);
 
 	var cardFooter = document.createElement("p");
 	cardFooter.id = "cardFooter";
@@ -51,35 +59,75 @@ function createGame(front, back) {
 	prevButton.type = "image";
 	prevButton.src = "prev.png";
 	prevButton.alt = "Previous Card";
+	prevButton.onclick = function() {
+		// Get the index of the current card
+		var currentCard = document.getElementById("currentCard");
+		var currentIndex = currentCard.index;
+
+		// Decrease the index.
+		currentIndex--;
+
+		// If currentCard is the first card, go to the end
+		if (currentIndex == -1) {
+			currentIndex = cards.length - 1;
+		}
+
+		// Change the card.
+		changeCard(cards[currentIndex]);
+	}
+	cardFooter.appendChild(prevButton);
 
 	var flipButton = document.createElement("input");
 	flipButton.type = "image";
 	flipButton.src = "flip.png";
 	flipButton.alt = "Flip Card";
+	flipButton.onclick = function() {
+		flipCard(currentCard);
+	}
+	cardFooter.appendChild(flipButton);
 
 	var nextButton = document.createElement("input");
 	nextButton.type = "image";
 	nextButton.src = "next.png";
 	nextButton.alt = "Next Card";
+	nextButton.onclick = function() {
+		// Get the index of the current card
+		var currentCard = document.getElementById("currentCard");
+		var currentIndex = currentCard.index;
 
-	cardFooter.appendChild(prevButton);
-	cardFooter.appendChild(flipButton);
+		// Increase the index.
+		currentIndex++;
+
+		// If currentCard is the last card, go to the beginning
+		if (currentIndex == cards.length) currentIndex = 0;
+
+		// Change the card.
+		changeCard(cards[currentIndex]);
+	}
 	cardFooter.appendChild(nextButton);
+
 	cardBox.appendChild(cardFooter);
 }
 
 function flipCard() {
 	var cardBox = document.getElementById("flashcards");
-	var card = document.getElementById("currentCard");
+	var currentCard = document.getElementById("currentCard");
+
+	if (document.getElementById("front")) {
+		currentCard.removeChild(currentCard.front);
+		currentCard.appendChild(currentCard.back);
+	}
+	else if (document.getElementById("back")) {
+		currentCard.removeChild(currentCard.back);
+		currentCard.appendChild(currentCard.front);
+	}
 }
 
 function changeCard(card) {
 	var cardBox = document.getElementById("flashcards");
 	var oldCard = document.getElementById("currentCard");
-	var cardFooter = document.getElementById("cardFooter");
 
 	// Replace current card with new card
-	var newCard = oldCard.cloneNode(true);
-	newCard.front.innerHTML = card.front.innerHTML;
-	cardBox.replaceChild(oldCard, newCard);
+	cardBox.removeChild(oldCard);
+	cardBox.appendChild(card);
 }
